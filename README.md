@@ -18,8 +18,9 @@ I want to synchronize my personal notifications as many as possible using the RE
 There are two options for me: react.js and vue.js
 So many posts in tech-blogs already compared them.
 In my personal opinion, vue.js can implement codes more short and clear.
-It also has better performance than react.js, and easy to use for the beginners.
+It also has better performance than react.js, and easy to use for the beginners as far as I know.
 However, react.js has more well-refined documents and references.
 Personally, I value the good references and documents more and it is the reason why I select react.js.
 
-
+# Appendix
+[Notion - Project Management](https://seen-fact-e72.notion.site/Dashboard-16603184981f4d9c9a3bc046e5784960)
