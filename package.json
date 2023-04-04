@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "markdownlint": "^0.28.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.37.0",
+    "eslint-plugin-react": "^7.32.2"
+  }
+}

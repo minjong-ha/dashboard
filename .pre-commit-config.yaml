@@ -1,0 +1,20 @@
+repos:
+  - repo: https://github.com/pre-commit/mirrors-eslint
+    rev: v8.37.0  # Use the version of ESLint you have installed or the latest version available
+    hooks:
+      - id: eslint
+        files: \.[jt]sx?$  # This line tells pre-commit which files to run the linter on
+        additional_dependencies:
+          - eslint@8.1.0
+          - eslint-config-airbnb@19.0.2
+          - eslint-plugin-import@2.25.2
+          - eslint-plugin-jsx-a11y@6.5.1
+          - eslint-plugin-react@7.27.0
+          - eslint-plugin-react-hooks@4.3.0
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-added-large-files
