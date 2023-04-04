@@ -1,36 +1,27 @@
-import React, { useState, useEffect } from 'react';
+
+import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import { format, differenceInDays } from 'date-fns';
 import './MoonPhase.css';
 
-function MoonPhase() {
-  const [moonPhase, setMoonPhase] = useState(0);
+const MoonPhase = ({ date }) => {
+  const [shadowWidth, setShadowWidth] = useState(0);
+
+  const calculateLunarAge = (date) => {
+    const referenceDate = new Date(2000, 0, 6);
+    const daysBetween = differenceInDays(date, referenceDate) % 29.53058867;
+    return daysBetween < 0 ? daysBetween + 29.53058867 : daysBetween;
+  };
+
+  const getShadowWidth = (lunarAge) => {
+    const phasePercent = (lunarAge / 29.53058867) * 100;
+    return phasePercent < 50 ? 100 - (phasePercent * 2) : (phasePercent - 50) * 2;
+  };
 
   useEffect(() => {
-      const getMoonPhase = async () => {
-      const apiKey = 'BSUPRTMGB5FSM5D8EBTU3ZYYS';
-      // Coordinate for Seoul, Republic of Korea
-      const lat = '37.5665';
-      const lon = '126.9780';
-
-      const response = await fetch(
-          `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${lat},${lon}/today?unitGroup=us&key=${apiKey}`
-          );
-      const data = await response.json();
-      const moonPhaseData = data.days[0].moonphase;
-
-      setMoonPhase(moonPhaseData);
-      };
-
-      getMoonPhase();
-      }, []);
-
-  const phasePercentage = 100 - moonPhase * 100;
-
-  useEffect(() => {
-      // Start the animation when the component is mounted
-      const moonPhaseEl = document.querySelector('.moon-phase');
-      moonPhaseEl.style.animationPlayState = 'running';
-      }, []);
-
+      const lunarAge = calculateLunarAge(date);
+      setShadowWidth(getShadowWidth(lunarAge));
+      }, [date]);
 
   useEffect(() => {
       const starsContainer = document.querySelector(".StarsContainer");
@@ -41,27 +32,31 @@ function MoonPhase() {
       star.classList.add("star");
       star.style.top = `${Math.random() * 100}%`;
       star.style.left = `${Math.random() * 100}%`;
-      star.style.animationDelay = `${Math.random() * 2}s`; // Set random animation delays for the sparkle and moveRightToLeft animations
-      star.style.animationDuration = `2s`; // Set random animation durations for the moveRightToLeft animation between 10 and 20 seconds
-
+      star.style.animationDelay = `${Math.random() * 2}s`;
+      star.style.animationDuration = `2s`;
 
       starsContainer.appendChild(star);
       }
       }, []);
 
+
   return (
       <div className="StarsWrapper">
       <div className="StarsContainer"></div>
-      <div className="MoonPhase">
       <div className="moon">
-      <div
-      className="moon-phase"
-      style={{ clipPath: `inset(0% ${phasePercentage}% 0% 0%)` }}
-      ></div>
-      </div>
-      </div>
-      </div>
-      );
-}
+        <div
+          className="moon-phase"
+          style={{
+          width: `${shadowWidth}%`,
+          }}
+        ></div>
+    </div>
+    </div>
+);
+  };
+
+MoonPhase.propTypes = {
+date: PropTypes.instanceOf(Date).isRequired,
+};
 
 export default MoonPhase;
