@@ -5,7 +5,7 @@ import { format, differenceInDays } from 'date-fns';
 import './MoonPhase.css';
 
 const MoonPhase = ({ date }) => {
-  const [shadowWidth, setShadowWidth] = useState(0);
+  const [shadowStyle, setShadowStyle] = useState({width: '0%', isWaning: false});
 
   const calculateLunarAge = (date) => {
     const referenceDate = new Date(2000, 0, 6);
@@ -13,14 +13,17 @@ const MoonPhase = ({ date }) => {
     return daysBetween < 0 ? daysBetween + 29.53058867 : daysBetween;
   };
 
-  const getShadowWidth = (lunarAge) => {
+  const getShadowStyle = (lunarAge) => {
     const phasePercent = (lunarAge / 29.53058867) * 100;
-    return phasePercent < 50 ? 100 - (phasePercent * 2) : (phasePercent - 50) * 2;
+    const isWaning = phasePercent > 50;
+    const width = isWaning ? (phasePercent - 50) * 2 : 100 - (phasePercent *2);
+    return { width, isWaning };
   };
 
   useEffect(() => {
       const lunarAge = calculateLunarAge(date);
-      setShadowWidth(getShadowWidth(lunarAge));
+      console.log("lunarAge: ", lunarAge);
+      setShadowStyle(getShadowStyle(lunarAge));
       }, [date]);
 
   useEffect(() => {
@@ -39,17 +42,18 @@ const MoonPhase = ({ date }) => {
       }
       }, []);
 
+  console.log("shadowStyle: ", shadowStyle);
 
   return (
       <div className="StarsWrapper">
       <div className="StarsContainer"></div>
       <div className="moon">
-        <div
-          className="moon-phase"
-          style={{
-          width: `${shadowWidth}%`,
-          }}
-        ></div>
+      <div
+      className={`moon-phase ${shadowStyle.isWaning ? 'waning' : ''}`}
+      style={{
+width: `${shadowStyle.width}%`,
+}}
+></div>
     </div>
     </div>
 );
