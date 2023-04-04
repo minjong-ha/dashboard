@@ -6,10 +6,11 @@ function App() {
   useEffect(() => {
       document.title = 'Dashboard';
       }, []);
+  const today = new Date();
 
   return (
       <div className="App">
-      <MoonPhase />
+      <MoonPhase date={today}/>
 
       <header className="App-header">
       <h1>Dashboard</h1>

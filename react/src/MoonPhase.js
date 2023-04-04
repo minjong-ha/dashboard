@@ -1,52 +1,27 @@
-import React, { useState, useEffect } from "react";
-import { getUnixTime } from "date-fns";
-import "./MoonPhase.css";
 
+import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import { format, differenceInDays } from 'date-fns';
+import './MoonPhase.css';
 
+const MoonPhase = ({ date }) => {
+  const [shadowWidth, setShadowWidth] = useState(0);
 
-function getMoonPhase(date) {
-  const julianDate = (date.getTime() / 86400000) + 2440587.5;
-  const daysSinceNewMoon = julianDate - 2451550.1;
-  const newMoons = daysSinceNewMoon / 29.53058867;
-  const phase = (newMoons - Math.floor(newMoons)) * 29.53058867;
+  const calculateLunarAge = (date) => {
+    const referenceDate = new Date(2000, 0, 6);
+    const daysBetween = differenceInDays(date, referenceDate) % 29.53058867;
+    return daysBetween < 0 ? daysBetween + 29.53058867 : daysBetween;
+  };
 
-  return phase < 15 ? phase / 29.53058867 : (29.53058867 - phase) / 29.53058867;
-}
-
-
-function MoonPhase() {
-
-  const [moonPhase, setMoonPhase] = useState(0);
-
-  useEffect(() => {
-      const getMoonPhase = async () => {
-      const apiKey = "BSUPRTMGB5FSM5D8EBTU3ZYYS";
-      // Coordinate for Seoul, Republic of Korea
-      const lat = "37.5665";
-      const lon = "126.9780";
-
-      const response = await fetch(
-          `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${lat},${lon}/today?unitGroup=us&key=${apiKey}`
-          );
-      const data = await response.json();
-      const moonPhaseData = data.days[0].moonphase;
-
-      setMoonPhase(moonPhaseData);
-      };
-
-      getMoonPhase();
-      }, []);
-
-  const phasePercentage = 100 - moonPhase * 100;
-  console.log("moonPhase:", moonPhase);
-  console.log("Phase percentage:", phasePercentage);
-
-  const moonMaskWidth = Math.round(phasePercentage);
+  const getShadowWidth = (lunarAge) => {
+    const phasePercent = (lunarAge / 29.53058867) * 100;
+    return phasePercent < 50 ? 100 - (phasePercent * 2) : (phasePercent - 50) * 2;
+  };
 
   useEffect(() => {
-      const moonPhaseEl = document.querySelector(".moon-phase");
-      moonPhaseEl.style.width = `${moonMaskWidth}%`;
-      }, [moonMaskWidth]);
+      const lunarAge = calculateLunarAge(date);
+      setShadowWidth(getShadowWidth(lunarAge));
+      }, [date]);
 
   useEffect(() => {
       const starsContainer = document.querySelector(".StarsContainer");
@@ -64,16 +39,24 @@ function MoonPhase() {
       }
       }, []);
 
+
   return (
       <div className="StarsWrapper">
       <div className="StarsContainer"></div>
-      <div className="MoonPhase">
       <div className="moon">
-      <div className="moon-phase"></div>
-      </div>
-      </div>
-      </div>
-      );
-}
+        <div
+          className="moon-phase"
+          style={{
+          width: `${shadowWidth}%`,
+          }}
+        ></div>
+    </div>
+    </div>
+);
+  };
+
+MoonPhase.propTypes = {
+date: PropTypes.instanceOf(Date).isRequired,
+};
 
 export default MoonPhase;
