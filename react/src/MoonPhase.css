@@ -85,3 +85,20 @@ right: 10px;
 color: white;
        font-weight: bold;
 }
+
+
+/* Smaller font size for screens with a width of 768px or less */
+@media (max-width: 768px) {
+  .local-time {
+    font-size: 14px;
+bottom: -5px;
+  }
+}
+
+/* Even smaller font size for screens with a width of 480px or less */
+@media (max-width: 480px) {
+  .local-time {
+    font-size: 10px;
+bottom: -5px;
+  }
+}
