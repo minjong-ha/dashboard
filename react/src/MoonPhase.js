@@ -4,12 +4,18 @@ import PropTypes from 'prop-types';
 import { format, differenceInDays } from 'date-fns';
 import './MoonPhase.css';
 
-const MoonPhase = ({ date }) => {
+const MoonPhase = () => {
   const [shadowStyle, setShadowStyle] = useState({width: '0%', isWaning: false});
+  const [currentTime, setCurrentTime] = useState(new Date());
 
-  const calculateLunarAge = (date) => {
+  const formatLocalTime = (currentTime) => {
+      const localTime = format(currentTime, "yyyy-MM-dd HH:mm:ss (O)");
+        return localTime;
+  };
+
+  const calculateLunarAge = (currentTime) => {
     const referenceDate = new Date(2000, 0, 6);
-    const daysBetween = differenceInDays(date, referenceDate) % 29.53058867;
+    const daysBetween = differenceInDays(currentTime, referenceDate) % 29.53058867;
     return daysBetween < 0 ? daysBetween + 29.53058867 : daysBetween;
   };
 
@@ -21,10 +27,20 @@ const MoonPhase = ({ date }) => {
   };
 
   useEffect(() => {
-      const lunarAge = calculateLunarAge(date);
+      const timer = setInterval(() => {
+          setCurrentTime(new Date());
+          }, 1000);
+
+      return () => {
+      clearInterval(timer);
+      };
+      }, []);
+
+  useEffect(() => {
+      const lunarAge = calculateLunarAge(currentTime);
       console.log("lunarAge: ", lunarAge);
       setShadowStyle(getShadowStyle(lunarAge));
-      }, [date]);
+      }, [currentTime]);
 
   useEffect(() => {
       const starsContainer = document.querySelector(".StarsContainer");
@@ -46,21 +62,18 @@ const MoonPhase = ({ date }) => {
 
   return (
       <div className="StarsWrapper">
-      <div className="StarsContainer"></div>
-      <div className="moon">
-      <div
-      className={`moon-phase ${shadowStyle.isWaning ? 'waning' : ''}`}
-      style={{
-width: `${shadowStyle.width}%`,
-}}
-></div>
-    </div>
+        <div className="StarsContainer"></div>
+        <p className="local-time">{formatLocalTime(currentTime)}</p>
+        <div className="moon">
+        <div
+          className={`moon-phase ${shadowStyle.isWaning ? 'waning' : ''}`}
+          style={{
+            width: `${shadowStyle.width}%`,
+          }}
+        ></div>
+      </div>
     </div>
 );
   };
-
-MoonPhase.propTypes = {
-date: PropTypes.instanceOf(Date).isRequired,
-};
 
 export default MoonPhase;

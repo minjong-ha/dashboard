@@ -10,7 +10,7 @@ function App() {
 
   return (
       <div className="App">
-      <MoonPhase date={today}/>
+      <MoonPhase/>
 
       <header className="App-header">
       <h1>Dashboard</h1>
