@@ -6,6 +6,12 @@ import './MoonPhase.css';
 
 const MoonPhase = ({ date }) => {
   const [shadowStyle, setShadowStyle] = useState({width: '0%', isWaning: false});
+  const [currentTime, setCurrentTime] = useState(new Date());
+
+  const formatLocalTime = (date) => {
+      const localTime = format(date, "yyyy-MM-dd HH:mm:ss (O)");
+        return localTime;
+  };
 
   const calculateLunarAge = (date) => {
     const referenceDate = new Date(2000, 0, 6);
@@ -19,6 +25,16 @@ const MoonPhase = ({ date }) => {
     const width = isWaning ? (phasePercent - 50) * 2 : 100 - (phasePercent *2);
     return { width, isWaning };
   };
+
+  useEffect(() => {
+      const timer = setInterval(() => {
+          setCurrentTime(new Date());
+          }, 1000);
+
+      return () => {
+      clearInterval(timer);
+      };
+      }, []);
 
   useEffect(() => {
       const lunarAge = calculateLunarAge(date);
@@ -46,15 +62,16 @@ const MoonPhase = ({ date }) => {
 
   return (
       <div className="StarsWrapper">
-      <div className="StarsContainer"></div>
-      <div className="moon">
-      <div
-      className={`moon-phase ${shadowStyle.isWaning ? 'waning' : ''}`}
-      style={{
-width: `${shadowStyle.width}%`,
-}}
-></div>
-    </div>
+        <div className="StarsContainer"></div>
+        <p className="local-time">{formatLocalTime(currentTime)}</p>
+        <div className="moon">
+        <div
+          className={`moon-phase ${shadowStyle.isWaning ? 'waning' : ''}`}
+          style={{
+            width: `${shadowStyle.width}%`,
+          }}
+        ></div>
+      </div>
     </div>
 );
   };
