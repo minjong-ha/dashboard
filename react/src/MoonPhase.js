@@ -1,12 +1,10 @@
 
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import { format, differenceInDays } from 'date-fns';
 import './MoonPhase.css';
 
-const MoonPhase = () => {
+const MoonPhase = ({ currentTime }) => {
   const [shadowStyle, setShadowStyle] = useState({width: '0%', isWaning: false});
-  const [currentTime, setCurrentTime] = useState(new Date());
 
   const formatLocalTime = (currentTime) => {
       const localTime = format(currentTime, "yyyy-MM-dd HH:mm:ss (O)");
@@ -25,16 +23,6 @@ const MoonPhase = () => {
     const width = isWaning ? (phasePercent - 50) * 2 : 100 - (phasePercent *2);
     return { width, isWaning };
   };
-
-  useEffect(() => {
-      const timer = setInterval(() => {
-          setCurrentTime(new Date());
-          }, 1000);
-
-      return () => {
-      clearInterval(timer);
-      };
-      }, []);
 
   useEffect(() => {
       const lunarAge = calculateLunarAge(currentTime);
