@@ -1,16 +1,29 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import MoonPhase from './MoonPhase';
 
 function App() {
+
+  const [currentTime, setCurrentTime] = useState(new Date());
+
   useEffect(() => {
       document.title = 'Dashboard';
       }, []);
-  const today = new Date();
+
+  useEffect(() => {
+      const timer = setInterval(() => {
+          setCurrentTime(new Date());
+          }, 1000);
+
+      return () => {
+      clearInterval(timer);
+      };
+      }, []);
+
 
   return (
       <div className="App">
-      <MoonPhase/>
+      <MoonPhase currentTime={currentTime}/>
 
       <header className="App-header">
       <h1>Dashboard</h1>
