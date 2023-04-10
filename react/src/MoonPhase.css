@@ -77,14 +77,29 @@ opacity: 0.3;
 }
 
 .local-time {
-position: absolute;
-bottom: -15px;
-right: 10px;
        font-family: Arial, sans-serif;
        font-size: 22px;
 color: white;
        font-weight: bold;
 }
+
+.time-info {
+position: absolute;
+bottom: 0px;
+right: 15px;
+display: flex;
+         flex-direction: column;
+         align-items: flex-end;
+}
+
+.timezone-container {
+display: flex;
+gap: 10px;
+     align-items: center;
+color: white;
+       font-weight: bold;
+}
+
 
 
 /* Smaller font size for screens with a width of 768px or less */
