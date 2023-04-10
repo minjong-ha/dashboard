@@ -1,33 +1,33 @@
-import React, { useState } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { timeZoneNames } from './timeZoneNames';
+import './TimezoneSelector.css';
 
 const TimezoneSelector = ({ onChange }) => {
-  const [isDropdownVisible, setDropdownVisible] = useState(false);
-
-  const handleTimezoneClick = (timeZone) => {
-    onChange(timeZone);
-    console.log(timeZone);
-    setDropdownVisible(false);
+  const handleTimezoneClick = (timezone) => {
+    onChange(timezone);
   };
 
   return (
-      <div>
-      <button onClick={() => setDropdownVisible(!isDropdownVisible)}>
-      Select Timezone
-      </button>
-      {isDropdownVisible && (
-          <div>
-          <ul>
-          {timeZoneNames.map((timeZone) => (
-                <li key={timeZone} onClick={() => handleTimezoneClick(timeZone)}>
-                {timeZone}
-                </li>
-                ))}
-          </ul>
-          </div>
-          )}
+      <div className="timezone-selector">
+      <h4>Timezone</h4>
+      <ul>
+      {timeZoneNames.map((timezone) => (
+            <li
+            key={timezone}
+            className="timezone-option"
+            onClick={() => handleTimezoneClick(timezone)}
+            >
+            {timezone}
+            </li>
+            ))}
+      </ul>
       </div>
       );
+};
+
+TimezoneSelector.propTypes = {
+onChange: PropTypes.func.isRequired,
 };
 
 export default TimezoneSelector;

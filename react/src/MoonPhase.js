@@ -6,16 +6,40 @@ import { zonedTimeToUtc, utcToZonedTime } from 'date-fns-tz';
 import './MoonPhase.css';
 import TimezoneSelector from './TimezoneSelector';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCog } from '@fortawesome/free-solid-svg-icons';
+
+
 const MoonPhase = ({ currentTime, timeZone, onTimezoneChange }) => {
   const [shadowStyle, setShadowStyle] = useState({width: '0%', isWaning: false});
+  const [menuOpen, setMenuOpen] = useState(false);
 
-  const formatLocalTime = (currentTime, timeZone) => {
-      const localTime = utcToZonedTime(currentTime, timeZone);
-      const formattedTime = format(localTime, "yyyy-MM-dd HH:mm:ss (O)");
-        return formattedTime;
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
   };
 
-  const calculateLunarAge = (currentTime) => {
+  const onTimezoneChangeWrapper = (newTimeZone) => {
+    onTimezoneChange(newTimeZone);
+    setMenuOpen(false);
+  };
+
+  const formatLocalTime = (currentTime, timeZone) => {
+    const localTime = utcToZonedTime(currentTime, timeZone);
+    const formatter = new Intl.DateTimeFormat('en-US', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      timeZoneName: 'short',
+      timeZone: timeZone,
+    });
+    const formattedTime = formatter.format(localTime);
+    return formattedTime;
+  };
+
+const calculateLunarAge = (currentTime) => {
     const referenceDate = new Date(2000, 0, 6);
     const daysBetween = differenceInDays(currentTime, referenceDate) % 29.53058867;
     return daysBetween < 0 ? daysBetween + 29.53058867 : daysBetween;
@@ -55,30 +79,28 @@ const MoonPhase = ({ currentTime, timeZone, onTimezoneChange }) => {
   return (
       <div className="StarsWrapper">
 
+      <FontAwesomeIcon
+      icon={faCog}
+      className="config-button"
+      onClick={toggleMenu}
+      />
+      <div className={`menu ${menuOpen ? 'open' : ''}`}>
+      <h3>Configuration</h3>
+      <TimezoneSelector onChange={onTimezoneChangeWrapper} />
+      </div>
 
+      <p className="local-time">{formatLocalTime(currentTime, timeZone)}</p>
+      <div className="StarsContainer"></div>
+      <div className="moon">
+      <div
+      className={`moon-phase ${shadowStyle.isWaning ? 'waning' : ''}`}
+      style={{
+width: `${shadowStyle.width}%`,
+}}
+></div>
+</div>
+</div>
 
-
-        <div className="time-info">
-        <p className="local-time">{formatLocalTime(currentTime, timeZone)}</p>
-        <div className="timezone-container">
-        <TimezoneSelector onChange={onTimezoneChange}/>
-        <p className="timezone-info">{timeZone}</p>
-        </div>
-        </div>
-
-
-
-
-        <div className="StarsContainer"></div>
-          <div className="moon">
-            <div
-              className={`moon-phase ${shadowStyle.isWaning ? 'waning' : ''}`}
-              style={{
-              width: `${shadowStyle.width}%`,
-              }}
-            ></div>
-          </div>
-        </div>
 );
   };
 
