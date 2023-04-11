@@ -1,41 +1,20 @@
 
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { format, differenceInDays } from 'date-fns';
-import { zonedTimeToUtc, utcToZonedTime } from 'date-fns-tz';
+import { differenceInDays, format } from 'date-fns';
+import { utcToZonedTime } from 'date-fns-tz';
 import './MoonPhase.css';
-import TimezoneSelector from './TimezoneSelector';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCog } from '@fortawesome/free-solid-svg-icons';
-
+export {default as TimezoneSelector } from './TimezoneSelector';
 
 const MoonPhase = ({ currentTime, timeZone, onTimezoneChange }) => {
+
   const [shadowStyle, setShadowStyle] = useState({width: '0%', isWaning: false});
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
-  };
-
-  const onTimezoneChangeWrapper = (newTimeZone) => {
-    onTimezoneChange(newTimeZone);
-    setMenuOpen(false);
-  };
 
   const formatLocalTime = (currentTime, timeZone) => {
     const localTime = utcToZonedTime(currentTime, timeZone);
-    const formatter = new Intl.DateTimeFormat('en-US', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      timeZoneName: 'short',
-      timeZone: timeZone,
-    });
-    const formattedTime = formatter.format(localTime);
+    const dateAndTime = format(localTime, "yyyy-MM-dd HH:mm:ss");
+    const formattedTime = `${dateAndTime} (${timeZone})`;
     return formattedTime;
   };
 
@@ -78,17 +57,6 @@ const calculateLunarAge = (currentTime) => {
 
   return (
       <div className="StarsWrapper">
-
-      <FontAwesomeIcon
-      icon={faCog}
-      className="config-button"
-      onClick={toggleMenu}
-      />
-      <div className={`menu ${menuOpen ? 'open' : ''}`}>
-      <h3>Configuration</h3>
-      <TimezoneSelector onChange={onTimezoneChangeWrapper} />
-      </div>
-
       <p className="local-time">{formatLocalTime(currentTime, timeZone)}</p>
       <div className="StarsContainer"></div>
       <div className="moon">
