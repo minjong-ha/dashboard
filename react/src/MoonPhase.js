@@ -5,7 +5,7 @@ import { differenceInDays, format } from 'date-fns';
 import { utcToZonedTime } from 'date-fns-tz';
 import './MoonPhase.css';
 
-export {default as TimezoneSelector } from './TimezoneSelector';
+//export {default as TimezoneSelector } from './TimezoneSelector';
 
 const MoonPhase = ({ currentTime, timeZone, onTimezoneChange }) => {
 
