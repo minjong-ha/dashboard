@@ -19,6 +19,7 @@ function App() {
   const handleTimezoneChange = (newTimeZone) => {
     setTimeZone(newTimeZone);
     setMenuOpen(false);
+    window.scrollTo(0, 0);
   };
 
   useEffect(() => {
