@@ -1,11 +1,10 @@
-
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { differenceInDays, format } from 'date-fns';
 import { utcToZonedTime } from 'date-fns-tz';
 import './MoonPhase.css';
 
-export {default as TimezoneSelector } from './TimezoneSelector';
+//export {default as TimezoneSelector } from './TimezoneSelector';
 
 const MoonPhase = ({ currentTime, timeZone, onTimezoneChange }) => {
 
