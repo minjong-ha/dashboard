@@ -9,13 +9,17 @@ transition: max-height 0.5s ease-in-out;
 }
 
 .timezone-selector ul.open {
-  max-height: 500px;
+  max-height: 100vh;
   overflow-y: auto;
 }
 
 /* Hide scrollbar for Chrome, Safari, and Opera */
 .timezone-selector ul.open::-webkit-scrollbar {
     display: none;
+}
+
+.timezone-selector h4 {
+cursor: pointer;
 }
 
 
