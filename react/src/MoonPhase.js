@@ -4,11 +4,12 @@ import { differenceInDays, format } from 'date-fns';
 import { utcToZonedTime } from 'date-fns-tz';
 import './MoonPhase.css';
 
-//export {default as TimezoneSelector } from './TimezoneSelector';
-
 const MoonPhase = ({ currentTime, timeZone, onTimezoneChange }) => {
 
   const [shadowStyle, setShadowStyle] = useState({width: '0%', isWaning: false});
+  const [timeAnimationClass, setTimeAnimationClass] = useState('');
+  const [timeAnimationKey, setTimeAnimationKey] = useState(0);
+  const [prevTimeZone, setPrevTimeZone] = useState(timeZone);
 
   const formatLocalTime = (currentTime, timeZone) => {
     const localTime = utcToZonedTime(currentTime, timeZone);
@@ -17,7 +18,7 @@ const MoonPhase = ({ currentTime, timeZone, onTimezoneChange }) => {
     return formattedTime;
   };
 
-const calculateLunarAge = (currentTime) => {
+  const calculateLunarAge = (currentTime) => {
     const referenceDate = new Date(2000, 0, 6);
     const daysBetween = differenceInDays(currentTime, referenceDate) % 29.53058867;
     return daysBetween < 0 ? daysBetween + 29.53058867 : daysBetween;
@@ -52,11 +53,30 @@ const calculateLunarAge = (currentTime) => {
       }
       }, []);
 
+  useEffect(() => {
+      if (prevTimeZone !== timeZone) {
+      setTimeAnimationClass("time-animation");
+      setPrevTimeZone(timeZone);
+      setTimeAnimationKey((prevKey) => prevKey + 1);
+
+      const timer = setTimeout(() => {
+          setTimeAnimationClass("");
+          }, 1000);
+
+      return () => {
+      clearTimeout(timer);
+      };
+      }
+      }, [timeZone, prevTimeZone]);
+
+
   console.log("shadowStyle: ", shadowStyle);
 
   return (
       <div className="StarsWrapper">
+      <div key={timeAnimationKey} className={`local-time-wrapper ${timeAnimationClass}`}>
       <p className="local-time">{formatLocalTime(currentTime, timeZone)}</p>
+      </div>
       <div className="StarsContainer"></div>
       <div className="moon">
       <div
@@ -72,9 +92,9 @@ width: `${shadowStyle.width}%`,
   };
 
 MoonPhase.propTypes = {
-    currentTime: PropTypes.instanceOf(Date).isRequired,
-                   timeZone: PropTypes.string.isRequired,
-                     onTimezoneChange: PropTypes.func.isRequired,
+currentTime: PropTypes.instanceOf(Date).isRequired,
+             timeZone: PropTypes.string.isRequired,
+             onTimezoneChange: PropTypes.func.isRequired,
 };
 
 export default MoonPhase;
