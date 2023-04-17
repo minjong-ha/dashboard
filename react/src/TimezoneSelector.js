@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import { timeZoneNames } from './timeZoneNames';
 import './TimezoneSelector.css';
 
@@ -16,7 +18,10 @@ const TimezoneSelector = ({ onChange }) => {
 
   return (
       <div className="timezone-selector">
-      <h4 onClick={toggleTimezoneList}>Timezone</h4>
+      <h4 onClick={toggleTimezoneList}>
+      Timezone{' '}
+      <FontAwesomeIcon icon={isOpen ? faChevronUp : faChevronDown} />
+      </h4>
       <ul className={isOpen ? 'open' : ''}>
       {timeZoneNames.map((timezone) => (
             <li
