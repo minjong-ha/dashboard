@@ -25,6 +25,25 @@ It also has better performance than react.js, and easy to use for the beginners 
 However, react.js has more well-refined documents and references.
 __Personally, I value the good references and documents more and it is the reason why I select react.js.__
 
+## Build
+
+```bash
+npm run build
+```
+
+To run build, execute above command.
+
+## Serve
+
+```bash
+npm install -g serve
+serve -s build
+```
+
+To serve (deploy) the `dashboard`, execute above commands.
+
+
+
 
 ## Components
 
@@ -33,6 +52,7 @@ There are multiple components on `Dashboard`.
 ### Moonphase
 
 Moonphase of today is located top-center of the page.
+
 
 
 
