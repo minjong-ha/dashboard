@@ -6,6 +6,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCog } from '@fortawesome/free-solid-svg-icons';
 import TimezoneSelector from './TimezoneSelector';
 
+import GoogleLogin from './GoogleLogin';
+import Notification from './Notification';
+
 function App() {
 
   const [menuOpen, setMenuOpen] = useState(false);
@@ -49,10 +52,11 @@ function App() {
       <TimezoneSelector onChange={handleTimezoneChange} />
       </div>
       <MoonPhase currentTime={currentTime} timeZone={timeZone} onTimezoneChange={handleTimezoneChange}/>
+      <GoogleLogin />
+      <Notification />
       <header className="App-header">
       <h1>Dashboard</h1>
       </header>
-
       {/* Add the rest of your App component code here */}
       </div>
       );
