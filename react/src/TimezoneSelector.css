@@ -3,6 +3,7 @@ width: 100%;
 }
 
 .timezone-selector ul {
+  list-style-type: none;
   max-height: 0;
 overflow: hidden;
 transition: max-height 0.5s ease-in-out;
@@ -24,12 +25,31 @@ cursor: pointer;
 
 
 .timezone-option {
-  list-style-type: none;
 cursor: pointer;
-padding: 5px;
-         font-size: 14px;
+        list-style-type: none;
+        margin-bottom: 8px;
+padding-left: 0;
 }
 
-.timezone-option:hover {
-  background-color: #f0f0f0;
+.timezone-cities {
+  list-style-type: none;
+padding: 0;
+margin: 0;
+overflow: hidden;
+          max-height: 0;
+transition: max-height 0.3s ease-in-out;
+}
+
+.timezone-cities.open {
+display: block;
+}
+
+
+.timezone-option.expanded .timezone-cities {
+    display: block;
+}
+
+.timezone-city {
+              padding: 5px;
+cursor: pointer;
 }
