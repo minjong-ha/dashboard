@@ -23,12 +23,28 @@ const TimezoneSelector = ({ onChange }) => {
     setIsOpen(!isOpen);
   };
 
+
   const toggleCitiesList = (timezone) => {
-    setExpandedCities((prevState) => ({
-          ...prevState,
-          [timezone]: !prevState[timezone],
-          }));
+    setExpandedCities((prevState) => {
+        const wasExpanded = prevState[timezone];
+        const newExpandedCities = Object.keys(prevState).reduce((acc, key) => {
+            acc[key] = false;
+            return acc;
+            }, {});
+
+        if (!wasExpanded) {
+        setTimeout(() => {
+            setExpandedCities((prevState) => ({
+                  ...prevState,
+                  [timezone]: true,
+                  }));
+            }, 300);
+        }
+
+        return newExpandedCities;
+        });
   };
+
 
   const setAllCitiesCollapsed = () => {
     const newExpandedCities = Object.keys(expandedCities).reduce((acc, key) => {
