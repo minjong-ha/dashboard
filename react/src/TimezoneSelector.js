@@ -10,7 +10,13 @@ const TimezoneSelector = ({ onChange }) => {
   const [expandedCities, setExpandedCities] = useState({});
 
   const handleTimezoneClick = (timezone) => {
-    onChange(timezone);
+    setAllCitiesCollapsed();
+    setTimeout(() => {
+        setIsOpen(false);
+        setTimeout(() => {
+            onChange(timezone);
+            }, 300);
+        }, 300);
   };
 
   const toggleTimezoneList = () => {
@@ -24,8 +30,14 @@ const TimezoneSelector = ({ onChange }) => {
           }));
   };
 
+  const setAllCitiesCollapsed = () => {
+    const newExpandedCities = Object.keys(expandedCities).reduce((acc, key) => {
+        acc[key] = false;
+        return acc;
+        }, {});
+    setExpandedCities(newExpandedCities);
+  };
 
-  console.log(timeZoneCities);
 
   return (
       <div className="timezone-selector">

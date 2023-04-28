@@ -16,11 +16,12 @@ transition: max-height 0.5s ease-in-out;
 
 /* Hide scrollbar for Chrome, Safari, and Opera */
 .timezone-selector ul.open::-webkit-scrollbar {
-    display: none;
+display: none;
 }
 
 .timezone-selector h4 {
 cursor: pointer;
+        text-align: left;
 }
 
 
@@ -28,7 +29,8 @@ cursor: pointer;
 cursor: pointer;
         list-style-type: none;
         margin-bottom: 8px;
-padding-left: 0;
+        padding-left: 30px;
+        text-align: left;
 }
 
 .timezone-cities {
@@ -44,12 +46,18 @@ transition: max-height 0.3s ease-in-out;
 display: block;
 }
 
+.timezone-cities.open::-webkit-scrollbar {
+display: none;
+}
+
 
 .timezone-option.expanded .timezone-cities {
-    display: block;
+display: block;
 }
 
 .timezone-city {
-              padding: 5px;
+padding: 5px;
+         padding-left: 60px;
 cursor: pointer;
+        text-align: left;
 }
