@@ -46,7 +46,7 @@ function App() {
       />
       <div className={`menu ${menuOpen ? 'open' : ''}`}>
       <h3>Configuration</h3>
-      <TimezoneSelector onChange={handleTimezoneChange} />
+      <TimezoneSelector onChange={handleTimezoneChange} menuOpen={menuOpen} />
       </div>
       <MoonPhase currentTime={currentTime} timeZone={timeZone} onTimezoneChange={handleTimezoneChange}/>
       <header className="App-header">

@@ -1,13 +1,15 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import { timeZoneNames, timeZoneCities } from './timeZoneNames';
 import './TimezoneSelector.css';
 
-const TimezoneSelector = ({ onChange }) => {
+const TimezoneSelector = ({ onChange, menuOpen }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [expandedCities, setExpandedCities] = useState({});
+  const [closeInProgress, setCloseInProgress] = useState(false);
+
 
   const handleTimezoneClick = (timezone) => {
     setAllCitiesCollapsed();
@@ -54,6 +56,11 @@ const TimezoneSelector = ({ onChange }) => {
     setExpandedCities(newExpandedCities);
   };
 
+  useEffect(() => {
+      if (!menuOpen) {
+      setExpandedCities({});
+      }
+      }, [menuOpen]);
 
   return (
       <div className="timezone-selector">
