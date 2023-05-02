@@ -3,6 +3,7 @@ width: 100%;
 }
 
 .timezone-selector ul {
+  list-style-type: none;
   max-height: 0;
 overflow: hidden;
 transition: max-height 0.5s ease-in-out;
@@ -15,21 +16,48 @@ transition: max-height 0.5s ease-in-out;
 
 /* Hide scrollbar for Chrome, Safari, and Opera */
 .timezone-selector ul.open::-webkit-scrollbar {
-    display: none;
+display: none;
 }
 
 .timezone-selector h4 {
 cursor: pointer;
+        text-align: left;
 }
 
 
 .timezone-option {
-  list-style-type: none;
 cursor: pointer;
-padding: 5px;
-         font-size: 14px;
+        list-style-type: none;
+        margin-bottom: 8px;
+        padding-left: 30px;
+        text-align: left;
 }
 
-.timezone-option:hover {
-  background-color: #f0f0f0;
+.timezone-cities {
+  list-style-type: none;
+padding: 0;
+margin: 0;
+overflow: hidden;
+          max-height: 0;
+transition: max-height 0.3s ease-in-out;
+}
+
+.timezone-cities.open {
+display: block;
+}
+
+.timezone-cities.open::-webkit-scrollbar {
+display: none;
+}
+
+
+.timezone-option.expanded .timezone-cities {
+display: block;
+}
+
+.timezone-city {
+padding: 5px;
+         padding-left: 60px;
+cursor: pointer;
+        text-align: left;
 }
